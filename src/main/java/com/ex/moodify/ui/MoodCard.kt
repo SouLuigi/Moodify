@@ -54,8 +54,8 @@ fun MoodCard(
         }
     }
 }
-//@Preview(showBackground = true, name = "Card de humor")
-//@Composable
-//fun MoodCardPreview() {
-//    MoodCard()
-//}
+@Preview(showBackground = true, name = "Card de humor")
+@Composable
+fun MoodCardPreview() {
+    MoodCard()
+}
