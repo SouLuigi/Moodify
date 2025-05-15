@@ -3,14 +3,14 @@ package com.ex.moodify.data
 import kotlinx.coroutines.flow.Flow
 
 class MoodRepository(private val moodDao: MoodDao) {
-    suspend fun saveMoodEntry(moodEntry: MoodEntry) {
-        moodDao.insert(moodEntry)
+
+    fun getAllMoods(): Flow<List<MoodEntry>> = moodDao.getAllMoods()
+
+    suspend fun insertMood(mood: MoodEntry) {
+        moodDao.insertMood(mood)
     }
 
-    fun getHistory(): Flow<List<MoodEntry>> {
-        return moodDao.getAllEntries()
-    }
-    suspend fun clearHistory() {
-        moodDao.deleteAll()
+    suspend fun deleteMood(mood: MoodEntry) {
+        moodDao.deleteMood(mood)
     }
 }

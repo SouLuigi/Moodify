@@ -8,6 +8,7 @@ import com.ex.moodify.data.MoodRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 
@@ -15,10 +16,16 @@ class MoodViewModel(private val repository: MoodRepository) : ViewModel() {
 
     private val _saveSuccessful = MutableStateFlow<Boolean>(false)
     val saveSuccessful: StateFlow<Boolean?> = _saveSuccessful.asStateFlow()
+    val moods: StateFlow<List<MoodEntry>> = repository.getAllMoods()
+        .stateIn(
+            scope = viewModelScope,
+            started = kotlinx.coroutines.flow.SharingStarted.WhileSubscribed(5000),
+            initialValue = emptyList()
+        )
 
     fun debugPrintAllEntries() {
         viewModelScope.launch {
-            repository.getHistory()
+            repository.getAllMoods()
                 .collect { entries ->
                     entries.forEach { entry ->
                         Log.d(
@@ -38,7 +45,7 @@ class MoodViewModel(private val repository: MoodRepository) : ViewModel() {
                     description = description,
                     timestamp = LocalDateTime.now()
                 )
-                repository.saveMoodEntry(entry)
+                repository.insertMood(entry)
                 _saveSuccessful.value = true
             } catch (e: Exception) {
                 _saveSuccessful.value = false

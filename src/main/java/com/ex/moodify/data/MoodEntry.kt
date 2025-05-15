@@ -4,7 +4,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 @Entity(tableName = "mood_entries")
 data class MoodEntry(
@@ -15,19 +14,15 @@ data class MoodEntry(
     val description: String?,
     val timestamp: LocalDateTime = LocalDateTime.now()
 )
-object Converters {
 
-    private val formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME
-
+class Converters {
     @TypeConverter
-    fun fromLocalDateTime(value: LocalDateTime?): String? {
-        return value?.format(formatter)
+    fun fromTimestamp(value: String?): LocalDateTime? {
+        return value?.let { LocalDateTime.parse(it) }
     }
 
     @TypeConverter
-    fun toLocalDateTime(value: String?): LocalDateTime? {
-        return value?.let {
-            LocalDateTime.parse(it, formatter)
-        }
+    fun dateToTimestamp(date: LocalDateTime?): String? {
+        return date?.toString()
     }
 }
