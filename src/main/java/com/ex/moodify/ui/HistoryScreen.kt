@@ -15,9 +15,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ex.moodify.ui.model.MoodViewModel
 
 @Composable
-fun HistoryScreen() {
+fun HistoryScreen(viewModel: MoodViewModel = hiltViewModel()) {
 
     Column(
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -35,7 +36,9 @@ fun HistoryScreen() {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(16.dp)
-        ){}
+        ){
+
+        }
 
     }
 

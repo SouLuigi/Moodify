@@ -18,21 +18,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ex.moodify.data.MoodEntry
+import java.time.format.DateTimeFormatter
 
 @Composable
-fun MoodCard(
-    moodEmoji: String,
-    moodDescription: String,
-    timestamp: String
-) {
+fun MoodCard(entry: MoodEntry) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(horizontal = 16.dp, vertical = 8.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(
-            containerColor = androidx.compose.ui.graphics.Color.White
+            containerColor = Color.White
         )
     ){
         Row(
@@ -41,21 +39,29 @@ fun MoodCard(
             verticalAlignment = Alignment.CenterVertically,
         ){
             Text(
-                text = moodEmoji,
-                fontSize = 30.sp,
-                modifier = Modifier.padding(end = 8.dp)
+                text = entry.mood,
+                fontSize = 32.sp,
+                modifier = Modifier.padding(end = 16.dp)
             )
             Column{
-//                Text(text = moodTitle, style = MaterialTheme.typography.titleMedium)
-                Text(text = timestamp, style = MaterialTheme.typography.bodySmall, color = Color.Gray)
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(text = moodDescription, style = MaterialTheme.typography.bodyMedium)
+                Text(
+                    text = entry.timestamp.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Color.Gray
+                )
+                entry.description?.let{
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
             }
         }
     }
 }
-@Preview(showBackground = true, name = "Card de humor")
-@Composable
-fun MoodCardPreview() {
-    MoodCard()
-}
+//@Preview(showBackground = true, name = "Card de humor")
+//@Composable
+//fun MoodCardPreview() {
+//    MoodCard()
+//}

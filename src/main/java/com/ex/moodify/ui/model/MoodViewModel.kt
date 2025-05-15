@@ -15,7 +15,6 @@ class MoodViewModel(private val repository: MoodRepository) : ViewModel() {
 
     private val _saveSuccessful = MutableStateFlow<Boolean>(false)
     val saveSuccessful: StateFlow<Boolean?> = _saveSuccessful.asStateFlow()
-//    val moodHistory: StateFlow<List<MoodEntry>> = repository.getHistory().asStateFlow()
 
     fun debugPrintAllEntries() {
         viewModelScope.launch {
